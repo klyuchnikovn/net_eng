@@ -1,7 +1,7 @@
 # Настройка Router-on-a-Stick Inter-VLAN Routing
 
 ## Задание: 
-#[Heading link](https://github.com/klyuchnikovn/net_eng/blob/master/hw_lesson_2/README.md "test")
+#[Heading link](https://github.com/klyuchnikovn/net_eng/blob/master/hw_lesson_2/README.md#test "test")
   1. Собрать сеть и произвести базовые настройки устройств
   2. Создать VLAN'ы и назначить их на интерфейсы
   3. Настроить trunk'и между коммутаторами
