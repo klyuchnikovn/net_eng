@@ -1,7 +1,7 @@
 # Настройка Router-on-a-Stick Inter-VLAN Routing
 
 ## Задание: 
-#Heading 1 link [Heading link](https://github.com/klyuchnikovn/net_eng/blob/master/hw_lesson_2/README.md "Heading link")
+#[Heading link](https://github.com/klyuchnikovn/net_eng/blob/master/hw_lesson_2/README.md "test")
   1. Собрать сеть и произвести базовые настройки устройств
   2. Создать VLAN'ы и назначить их на интерфейсы
   3. Настроить trunk'и между коммутаторами
@@ -64,7 +64,8 @@ Building configuration...
 [OK]
 ```
 
-##Heading link
+##  test
+
 Коммутаторы S1 и S2 настроены идентично, согласно заданию. 
 
 Настройка PC-A: 
