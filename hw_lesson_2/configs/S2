@@ -1,0 +1,154 @@
+!
+! Last configuration change at 17:36:14 UTC Thu Nov 19 2020
+! NVRAM config last updated at 16:55:50 UTC Thu Nov 19 2020
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname S2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$nu3K$u2d2bfRIJwFCJsT0fw1Vr1
+!
+username cisco secret 5 $1$q78b$FQPApNd1n3/r7boHmoHQI0
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no shutdown
+ switchport trunk allowed vlan 3,4,8
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 8
+ switchport mode trunk
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ no shutdown
+ switchport access vlan 4
+ switchport mode access
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ no shutdown
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ no shutdown
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ no shutdown
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ no shutdown
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ no shutdown
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ no shutdown
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ media-type rj45
+ negotiation auto
+!
+interface Vlan3
+ no shutdown
+ ip address 192.168.3.12 255.255.255.0
+!
+ip default-gateway 192.168.3.1
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C 
+***************************************
+* Unauthorized access is prohibited!  *
+***************************************
+^C
+banner incoming ^C
+***************************************
+* Unauthorized access is prohibited!  *
+***************************************
+^C
+banner login ^C
+***************************************
+* Unauthorized access is prohibited!  *
+***************************************
+^C
+!
+line con 0
+ password 7 13061E010803
+line aux 0
+line vty 0 4
+!

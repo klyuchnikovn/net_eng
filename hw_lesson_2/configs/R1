@@ -1,0 +1,151 @@
+!
+! Last configuration change at 16:59:33 msk Thu Nov 19 2020
+! NVRAM config last updated at 16:59:42 msk Thu Nov 19 2020
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$F7OQ$OCKU7yD/I6gZF5BT.ij5m/
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+clock timezone msk 3 0
+clock calendar-valid
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username cisco secret 5 $1$QaaN$jJxzpnEAOav.biAvQ3VUc0
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no shutdown
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/0.3
+ no shutdown
+ description Management
+ encapsulation dot1Q 3
+ ip address 192.168.3.1 255.255.255.0
+!
+interface GigabitEthernet0/0.4
+ no shutdown
+ description Operations
+ encapsulation dot1Q 4
+ ip address 192.168.4.1 255.255.255.0
+!
+interface GigabitEthernet0/0.8
+ no shutdown
+ description Native
+ encapsulation dot1Q 8
+!
+interface GigabitEthernet0/1
+ no shutdown
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no shutdown
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no shutdown
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+***************************************
+* Unauthorized access is prohibited!  *
+***************************************
+^C
+banner incoming ^C
+***************************************
+* Unauthorized access is prohibited!  *
+***************************************
+^C
+banner login ^C
+***************************************
+* Unauthorized access is prohibited!  *
+***************************************
+^C
+!
+line con 0
+ password 7 110A1016141D
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
