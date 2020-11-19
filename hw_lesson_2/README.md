@@ -64,7 +64,7 @@ Building configuration...
 [OK]
 ```
 
-  ##Heading link
+##Heading link
 Коммутаторы S1 и S2 настроены идентично, согласно заданию. 
 
 Настройка PC-A: 
