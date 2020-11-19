@@ -1,17 +1,17 @@
 # Настройка Router-on-a-Stick Inter-VLAN Routing
 
 ## Задание: 
-	1. Собрать сеть и произвести базовые настройки устройств
-	2. Создать VLAN'ы и назначить их на интерфейсы
-	3. Настроить trunk'и между коммутаторами
-	4. Настроить взаимодействие между VLAN на маршрутизаторе
-	5. Проверить всё в работе
+  1. Собрать сеть и произвести базовые настройки устройств
+  2. Создать VLAN'ы и назначить их на интерфейсы
+  3. Настроить trunk'и между коммутаторами
+  4. Настроить взаимодействие между VLAN на маршрутизаторе
+  5. Проверить всё в работе
 
 ## Топология: 
 
 ## Решение: 
 
-	1. [Задокументируем таблицу адресации;]
+  1. [Задокументируем таблицу адресации;]
 
 
 
@@ -77,66 +77,62 @@ PC1 : 192.168.4.3 255.255.255.0 gateway 192.168.4.1
 PC-B> 
 ```
 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
-</style>
-<table class="tg">
 <thead>
   <tr>
-    <th class="tg-0pky">Device</th>
-    <th class="tg-0pky">Interface</th>
-    <th class="tg-0pky">IP Address</th>
-    <th class="tg-0pky">Subnet Mask</th>
-    <th class="tg-0pky">Default Gateway</th>
+    <th>Device</th>
+    <th>Interface</th>
+    <th>IP Address</th>
+    <th>Subnet Mask</th>
+    <th>Default Gateway</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
+    <td>R1</td>
+    <td>G0/0/1.3</td>
+    <td>192.168.3.1</td>
+    <td>255.255.255.0</td>
+    <td rowspan="3">N/A</td>
   </tr>
   <tr>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
+    <td></td>
+    <td>G0/0/1.4</td>
+    <td>192.168.4.1</td>
+    <td>255.255.255.0</td>
   </tr>
   <tr>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
+    <td></td>
+    <td>G0/0/1.8</td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
+    <td>S1</td>
+    <td>VLAN 3</td>
+    <td>192.168.3.11</td>
+    <td>255.255.255.0</td>
+    <td>192.168.3.1</td>
   </tr>
   <tr>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
+    <td>S2</td>
+    <td>VLAN 3</td>
+    <td>192.168.3.12</td>
+    <td>255.255.255.0</td>
+    <td>192.168.3.1</td>
   </tr>
   <tr>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
-    <td class="tg-0pky"></td>
+    <td>PC-A</td>
+    <td>NIC</td>
+    <td>192.168.3.3</td>
+    <td>255.255.255.0</td>
+    <td>192.168.3.1</td>
+  </tr>
+  <tr>
+    <td>PC-B</td>
+    <td>NIC</td>
+    <td>192.168.4.3</td>
+    <td>255.255.255.0</td>
+    <td>192.168.4.1</td>
   </tr>
 </tbody>
 </table>
