@@ -1,7 +1,6 @@
 # Настройка Router-on-a-Stick Inter-VLAN Routing
 
 ## Задание: 
-#[Heading link](https://github.com/klyuchnikovn/net_eng/blob/master/hw_lesson_2/README.md#test "test")
   1. [Собрать сеть и произвести базовые настройки устройств](https://github.com/klyuchnikovn/net_eng/blob/master/hw_lesson_2/README.md#производим-предварительные-действия "Производим предварительные действия")
   2. [Создать VLAN'ы и назначить их на интерфейсы](https://github.com/klyuchnikovn/net_eng/blob/master/hw_lesson_2/README.md#создаём-vlan-и-svi "Создаём VLAN и SVI")
   3. [Настроить trunk'и между коммутаторами](https://github.com/klyuchnikovn/net_eng/blob/master/hw_lesson_2/README.md#настраиваем-на-свитчах-trunk "Настраиваем на свитчах trunk")
@@ -18,26 +17,26 @@
 1. Задокументируем таблицы адресации и VLAN в рамках нашей топологии: 
 
 - Таблица адресации: 
-| Device | Interface | IP Address   | Subnet Mask   | Default Gateway |
-|--------|-----------|--------------|---------------|-----------------|
-| R1     | G0/0.3    | 192.168.3.1  | 255.255.255.0 | N/A             |
-| R1     | G0/0.4    | 192.168.4.1  | 255.255.255.0 | N/A             |
-| R1     | G0/0.8    | N/A          | N/A           | N/A             |
-| S1     | VLAN 3    | 192.168.3.11 | 255.255.255.0 | 192.168.3.1     |
-| S2     | VLAN 3    | 192.168.3.12 | 255.255.255.0 | 192.168.3.1     |
-| PC-A   | NIC       | 192.168.3.3  | 255.255.255.0 | 192.168.3.1     |
-| PC-B   | NIC       | 192.168.4.3  | 255.255.255.0 | 192.168.4.1     |
+  | Device | Interface | IP Address   | Subnet Mask   | Default Gateway |
+  |--------|-----------|--------------|---------------|-----------------|
+  | R1     | G0/0.3    | 192.168.3.1  | 255.255.255.0 | N/A             |
+  | R1     | G0/0.4    | 192.168.4.1  | 255.255.255.0 | N/A             |
+  | R1     | G0/0.8    | N/A          | N/A           | N/A             |
+  | S1     | VLAN 3    | 192.168.3.11 | 255.255.255.0 | 192.168.3.1     |
+  | S2     | VLAN 3    | 192.168.3.12 | 255.255.255.0 | 192.168.3.1     |
+  | PC-A   | NIC       | 192.168.3.3  | 255.255.255.0 | 192.168.3.1     |
+  | PC-B   | NIC       | 192.168.4.3  | 255.255.255.0 | 192.168.4.1     |
 - Таблица VLAN: 
-| VLAN |    Name    |            Interface Assigned           |
-|:----:|:----------:|:---------------------------------------:|
-| 3    | Management | S1: VLAN 3 S2: VLAN 3 S1: Gi0/2         |
-| 4    | Operations | S2: Gi0/1                               |
-| 7    | ParkingLot | S1: Gi0/3, Gi1/0-3 S2: Gi0/2-3, Gi1/0-3 |
-| 8    | Native     | N/A                                     |
+  | VLAN |    Name    |            Interface Assigned           |
+  |:----:|:----------:|:---------------------------------------:|
+  | 3    | Management | S1: VLAN 3 S2: VLAN 3 S1: Gi0/2         |
+  | 4    | Operations | S2: Gi0/1                               |
+  | 7    | ParkingLot | S1: Gi0/3, Gi1/0-3 S2: Gi0/2-3, Gi1/0-3 |
+  | 8    | Native     | N/A                                     |
 
 2. Произведём настройки по ТЗ в файле: 
 
--R1
+- R1
 
 ```
 Router>en    
@@ -76,12 +75,12 @@ Building configuration...
 [OK]
 ```
 
--S1 и S2
+- S1 и S2
 ```
 Настроены идентично маршрутизатору
 ```
 
--PC-A
+- PC-A
 
 ```
 VPCS> set pcname PC-A
@@ -92,7 +91,7 @@ PC1 : 192.168.3.3 255.255.255.0 gateway 192.168.3.1
 PC-A>
 ```
 
--PC-B
+- PC-B
 
 ```
 VPCS> set pcname PC-B
@@ -105,7 +104,7 @@ PC-B>
 
 ### Создаём VLAN и SVI
 
--S1
+- S1
 
 ```
 S1(config)#vlan 3
@@ -135,7 +134,7 @@ S1(config-if-range)#sw a v 7
 S1(config-if-range)#shut
 ```
 
--S2
+- S2
 
 ```
 S2(config)#vlan 3
@@ -167,7 +166,7 @@ S2(config-if-range)#shut
 
 ### Настраиваем на свитчах trunk
 
--S1
+- S1
 
 ```
 S1(config-if)#int gi0/0
@@ -182,7 +181,7 @@ S1(config-if)#sw tr all vl 3,4,8
 S1(config-if)#sw tr na vl 8
 ```
 
--S2
+- S2
 
 ```
 S2(config)#int gi0/0
@@ -194,7 +193,7 @@ S2(config-if)#sw tr na vl 8
 
 ### Настраиваем на роутере адреса и подынтерфейсы
 
--R1
+- R1
 
 ```
 R1(config)#int gi0/0
@@ -214,7 +213,7 @@ R1(config-subif)#enc dot1q 8
 
 ### Проверяем с ПК
 
--С PC-A по условию нужно проверить доступность шлюза по-умолчанию, PC-B и управления S2
+- С PC-A по условию нужно проверить доступность шлюза по-умолчанию, PC-B и управления S2
 
 ```
 PC-A> ping 192.168.3.1
@@ -230,7 +229,7 @@ PC-A> ping 192.168.3.12
 84 bytes from 192.168.3.12 icmp_seq=2 ttl=255 time=2.049 ms
 ```
 
--С PC-B по условию нужно сделать трассировку до PC-A
+- С PC-B по условию нужно сделать трассировку до PC-A
 
 ```
 PC-B> trace 192.168.3.3
