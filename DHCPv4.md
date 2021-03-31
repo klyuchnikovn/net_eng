@@ -31,7 +31,7 @@
 |  					1 				    |  					N/A 				         |  					S2: G0/1 				          |
 |  					100 				  |  					Clients 				     |  					S1: G0/1 				          |
 |  					200 				  |  					Management 				  |  					S1: VLAN 200  					 				     |
-|  					999 				  |  					Parking_Lot 				 |  					S1: Et0/1, Et0/2 				   |
+|  					999 				  |  					Parking_Lot 				 |  					S1: Gi0/2-3, Gi1/0-3			   |
 |  					1000 				 |  					Native 				      |  					N/A 				                |
 
 
