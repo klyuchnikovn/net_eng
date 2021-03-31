@@ -185,6 +185,18 @@ R1#
 
 ```
 ### Настройка и проверка состояния DHCPv6 сервера на R1
+```
+R1(config)#ipv6 dhcp pool R2-STATEFUL
+R1(config-dhcpv6)#address prefix 2001:db8:acad:3:aaa::/80
+R1(config-dhcpv6)#dns-server 2001:db8:acad::254
+R1(config-dhcpv6)#domain-name STATEFUL.com
+R1(config-dhcpv6)#int gi0/0
+R1(config-if)#ipv6 dhcp server R2-STATEFUL
+R1(config-if)#
+```
+
+### Настройка и проверка DHCPv6 Relay на R2
+
 #### Проверим на PC-B адрес SLAAC, который он генерирует
 ```
 PC-B> show ipv6
@@ -212,3 +224,6 @@ R1(config-if)#ipv6 dhcp server R2-STATEFUL
 R1(config-if)#
 ```
 #### Перезапустим PC-B и проверим подключение
+```
+
+```
