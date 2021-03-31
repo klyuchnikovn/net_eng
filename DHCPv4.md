@@ -35,7 +35,7 @@
 |  					1000 				 |  					Native 				      |  					N/A 				                |
 
 
-#### Настройка маршрутизаторов
+### Настройка маршрутизаторов
 
 - R1
 ```
@@ -118,3 +118,92 @@ Sending 5, 100-byte ICMP Echos to 192.168.1.97, timeout is 2 seconds:
 Success rate is 100 percent (5/5), round-trip min/avg/max = 2/2/2 ms
 R1#
 ```
+### Настройка коммутаторов
+- S1 и S2
+```
+Настроены идентично маршрутизаторам
+```
+### Создаём VLAN и SVI
+- S1
+```
+S1(config)#vlan 100
+S1(config-vlan)#name Clients
+S1(config-vlan)#vlan 200
+S1(config-vlan)#name Mgmt
+S1(config-vlan)#vlan 999
+S1(config-vlan)#name Parking_lot
+S1(config-vlan)#vlan 1000
+S1(config-vlan)#name Native
+S1(config-if)#int vl200
+S1(config-if)#ip add 192.168.1.66 255.255.255.224
+S1(config-if)#des Mgmt
+S1(config-if)#no sh 
+S1(config-if)#exit
+S1(config)#ip default-gateway 192.168.1.65
+S1(config)#do copy run start
+Destination filename [startup-config]? 
+Building configuration...
+Compressed configuration from 3619 bytes to 1820 bytes[OK]
+S1(config)#int ra gi0/2-3,gi1/0-3
+S1(config-if-range)#sw acc vl 999
+S1(config-if-range)#sh
+```
+- S2
+```
+S2(config)#ip default-gateway 192.168.1.97
+S2(config)#vlan 999
+S2(config-vlan)#name Parking_lot
+S2(config-vlan)#int gi0/1
+S2(config-if)#des PC-B
+S2(config-if)#sw acc vl 1     
+S2(config-if)#int vlan1
+S2(config-if)#ip add 192.168.1.98 255.255.255.240
+S2(config-if)#des Mgmt
+S2(config-if)#no sh
+S2(config-if)#int gi0/0
+S2(config-if)#des R2
+S2(config-if)#int ra gi0/2-3,gi1/0-3
+S2(config-if-range)#sw acc vl 999
+S2(config-if-range)#sh
+```
+### Настраиваем на свитчах trunk
+- S1
+```
+S1(config-vlan)#int gi0/0 
+S1(config-if)#des R1
+S1(config-if)#sw tr enc dot1q
+S1(config-if)#sw mo tr
+S1(config-if)#sw tr al vl 100,200,1000
+S1(config-if)#sw tr nat vl 1000
+S1(config-if)#do sh run int gi0/0 
+Building configuration...
+
+Current configuration : 227 bytes
+!
+interface GigabitEthernet0/0
+ description R1
+ switchport trunk allowed vlan 100,200,1000
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 1000
+ switchport mode trunk
+ media-type rj45
+ negotiation auto
+end
+
+S1(config-if)#int gi0/1
+S1(config-if)#des PC-A
+S1(config-if)#sw acc vl 100
+S1(config-if)#do sh run int gi0/1
+Building configuration...
+
+Current configuration : 117 bytes
+!
+interface GigabitEthernet0/1
+ description PC-A
+ switchport access vlan 100
+ media-type rj45
+ negotiation auto
+end
+```
+
+
