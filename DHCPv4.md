@@ -35,7 +35,7 @@
 |  					1000 				 |  					Native 				      |  					N/A 				                |
 
 
-### Настройка маршрутизаторов
+#### Настройка маршрутизаторов
 
 - R1
 ```
@@ -71,7 +71,7 @@ R1#
 ```
 Настройки выполнены аналогично
 ```
-### Настраиваем на роутерах адреса и подынтерфейсы
+#### Настраиваем на роутерах адреса и подынтерфейсы
 - R1
 ```
 R1(config)#int gi0/1 
@@ -109,7 +109,7 @@ R2(config-if)#exit
 R2(config)#ip route 0.0.0.0 0.0.0.0 10.0.0.1
 R2(config)#
 ```
-### Проверяем работу маршрутизации
+#### Проверяем работу маршрутизации
 ```
 R1#ping 192.168.1.97
 Type escape sequence to abort.
@@ -118,12 +118,12 @@ Sending 5, 100-byte ICMP Echos to 192.168.1.97, timeout is 2 seconds:
 Success rate is 100 percent (5/5), round-trip min/avg/max = 2/2/2 ms
 R1#
 ```
-### Настройка коммутаторов
+#### Настройка коммутаторов
 - S1 и S2
 ```
 Настроены идентично маршрутизаторам
 ```
-### Создаём VLAN и SVI
+#### Создаём VLAN и SVI
 - S1
 ```
 S1(config)#vlan 100
@@ -166,8 +166,8 @@ S2(config-if)#int ra gi0/2-3,gi1/0-3
 S2(config-if-range)#sw acc vl 999
 S2(config-if-range)#sh
 ```
-### Настраиваем на свитчах trunk
-- S1
+#### Настраиваем на S1 trunk
+
 ```
 S1(config-vlan)#int gi0/0 
 S1(config-if)#des R1
@@ -205,5 +205,106 @@ interface GigabitEthernet0/1
  negotiation auto
 end
 ```
+### Настройка и проверка двух серверов DHCPv4 на R1
+#### Настроим на R1 пулы
+```
+R1(config)#ip dhcp excluded-address 192.168.1.1 192.168.1.5
+R1(config)#ip dhcp pool R1_Client_LAN 
+R1(dhcp-config)#network 192.168.1.0 255.255.255.192
+R1(dhcp-config)#domain-name ccna-lab.com
+R1(dhcp-config)#default-router 192.168.1.1
+R1(dhcp-config)#lease 2 12 30
+R1(dhcp-config)#ip dhcp excluded-address 192.168.1.97 192.168.1.101
+R1(config)#ip dhcp pool R2_Client_LAN
+R1(dhcp-config)#network 192.168.1.96 255.255.255.240
+R1(dhcp-config)#default-router 192.168.1.97
+R1(dhcp-config)#domain-name ccna-lab.com     
+R1(dhcp-config)#lease 2 12 30
+R1(dhcp-config)#do wr
+```
+#### Проверим конфигурацию сервера DHCPv4
 
+#### Проверим получение IP-адреса от DHCP на PC-A
+```
+VPCS> set pcname PC-A
 
+PC-A> ip dhcp -r
+DDORA IP 192.168.1.6/26 GW 192.168.1.1
+
+PC-A> show ip
+
+NAME        : PC-A[1]
+IP/MASK     : 192.168.1.6/26
+GATEWAY     : 192.168.1.1
+DNS         : 
+DHCP SERVER : 192.168.1.1
+DHCP LEASE  : 217798, 217800/108900/190575
+DOMAIN NAME : ccna-lab.com
+MAC         : 00:50:79:66:68:01
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+```
+
+### Настройка и проверка DHCP Relay на R2
+#### Настроим R2 в качестве агента DHCP Relay 
+```
+R2(config)#interface GigabitEthernet0/1
+R2(config-if)#ip helper-address 10.0.0.1
+R2(config-if)#
+```
+#### Проверим получение IP-адреса от DHCP на PC-В
+```
+VPCS> set pcname PC-B
+
+PC-B> ip dhcp -r
+DDORA IP 192.168.1.102/28 GW 192.168.1.97
+
+PC-B> show ip
+
+NAME        : PC-B[1]
+IP/MASK     : 192.168.1.102/28
+GATEWAY     : 192.168.1.97
+DNS         :
+DHCP SERVER : 10.0.0.1
+DHCP LEASE  : 217792, 217800/108900/190575
+DOMAIN NAME : ccna-lab.com
+MAC         : 00:50:79:66:68:02
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+
+PC-B>
+```
+#### Проверим назначение адресов в DHCP
+```
+R1#show ip dhcp pool
+
+Pool R1_Client_LAN :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 62
+ Leased addresses               : 1
+ Pending event                  : none
+ 1 subnet is currently in the pool :
+ Current index        IP address range                    Leased addresses
+ 192.168.1.7          192.168.1.1      - 192.168.1.62      1
+
+Pool R2_Client_LAN :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 14
+ Leased addresses               : 1
+ Pending event                  : none
+ 1 subnet is currently in the pool :
+ Current index        IP address range                    Leased addresses
+ 192.168.1.103        192.168.1.97     - 192.168.1.110     1
+R1#show ip dhcp binding
+Bindings from all pools not associated with VRF:
+IP address          Client-ID/              Lease expiration        Type
+                    Hardware address/
+                    User name
+192.168.1.6         0100.5079.6668.01       Mar 31 2021 10:20 AM    Automatic
+192.168.1.102       0100.5079.6668.02       Mar 31 2021 10:25 AM    Automatic
+R1#
+```
