@@ -164,3 +164,51 @@ PC-A> ping 2001:db8:acad:1::1
 2001:db8:acad:1::1 icmp6_seq=4 ttl=64 time=2.267 ms
 PC-A>
 ```
+### Настройка и проверка сервера DHCPv6 без сохранения состояния на R1
+#### Настроим R1 
+```
+R1#conf t
+R1(config)#ipv6 dhcp pool R1-STATELESS
+R1(config-dhcpv6)#dns-server 2001:db8:acad::254
+R1(config-dhcpv6)#domain-name STATELESS.com
+R1(config-dhcpv6)#interface GigabitEthernet0/1
+R1(config-if)#ipv6 nd other-config-flag
+R1(config-if)#ipv6 dhcp server R1-STATELESS
+R1(config-if)#do copy run start
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+R1#
+```
+#### Перезапустим PC-A и проверим подключение
+```
+
+```
+### Настройка и проверка состояния DHCPv6 сервера на R1
+#### Проверим на PC-B адрес SLAAC, который он генерирует
+```
+PC-B> show ipv6
+
+NAME              : VPCS[1]
+LINK-LOCAL SCOPE  : fe80::250:79ff:fe66:680c/64
+GLOBAL SCOPE      : 2001:db8:acad:3:2050:79ff:fe66:680c/64
+DNS               :
+ROUTER LINK-LAYER : 50:00:00:08:00:01
+MAC               : 00:50:79:66:68:0c
+LPORT             : 20000
+RHOST:PORT        : 127.0.0.1:30000
+MTU:              : 1500
+
+PC-B>
+```
+#### Настроим R2 в качестве агента DHCP relay
+```
+R1(config)#ipv6 dhcp pool R2-STATEFUL
+R1(config-dhcpv6)#address prefix 2001:db8:acad:3:aaa::/80
+R1(config-dhcpv6)#dns-server 2001:db8:acad::254
+R1(config-dhcpv6)#domain-name STATEFUL.com
+R1(config-dhcpv6)#int gi0/0
+R1(config-if)#ipv6 dhcp server R2-STATEFUL
+R1(config-if)#
+```
+#### Перезапустим PC-B и проверим подключение
