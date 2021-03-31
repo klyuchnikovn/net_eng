@@ -7,7 +7,7 @@
 ![](dhcp_topology.png)
 ## Решение: 
 ### Создание сети и настройка основных параметров устройства
-####  Создание схемы адресации
+####  Создаём схему адресации
 - Таблица адресации: 
 
 |  				Device 			 |   				Interface 			  |  				IP Address 			 |    				Subnet Mask 			   |  				Default Gateway 			 |
@@ -35,7 +35,7 @@
 |  					1000 				 |  					Native 				      |  					N/A 				                |
 
 
-#### Настройка маршрутизаторов
+#### Настраиваем маршрутизаторы
 
 - R1
 ```
@@ -118,7 +118,7 @@ Sending 5, 100-byte ICMP Echos to 192.168.1.97, timeout is 2 seconds:
 Success rate is 100 percent (5/5), round-trip min/avg/max = 2/2/2 ms
 R1#
 ```
-#### Настройка коммутаторов
+#### Настраиваем коммутаторы
 - S1 и S2
 ```
 Настроены идентично маршрутизаторам
@@ -206,7 +206,7 @@ interface GigabitEthernet0/1
 end
 ```
 ### Настройка и проверка двух серверов DHCPv4 на R1
-#### Настроим на R1 пулы
+#### Настраиваем на R1 пулы
 ```
 R1(config)#ip dhcp excluded-address 192.168.1.1 192.168.1.5
 R1(config)#ip dhcp pool R1_Client_LAN 
@@ -222,9 +222,9 @@ R1(dhcp-config)#domain-name ccna-lab.com
 R1(dhcp-config)#lease 2 12 30
 R1(dhcp-config)#do wr
 ```
-#### Проверим конфигурацию сервера DHCPv4
+#### Проверяем конфигурацию сервера DHCPv4
 
-#### Проверим получение IP-адреса от DHCP на PC-A
+#### Проверяем получение IP-адреса от DHCP на PC-A
 ```
 VPCS> set pcname PC-A
 
@@ -247,13 +247,13 @@ MTU         : 1500
 ```
 
 ### Настройка и проверка DHCP Relay на R2
-#### Настроим R2 в качестве агента DHCP Relay 
+#### Настраиваем R2 в качестве агента DHCP Relay 
 ```
 R2(config)#interface GigabitEthernet0/1
 R2(config-if)#ip helper-address 10.0.0.1
 R2(config-if)#
 ```
-#### Проверим получение IP-адреса от DHCP на PC-В
+#### Проверяем получение IP-адреса от DHCP на PC-В
 ```
 VPCS> set pcname PC-B
 
@@ -276,7 +276,7 @@ MTU         : 1500
 
 PC-B>
 ```
-#### Проверим назначение адресов в DHCP
+#### Проверяем назначение адресов в DHCP
 ```
 R1#show ip dhcp pool
 
