@@ -146,3 +146,21 @@ Sending 5, 100-byte ICMP Echos to 2001:DB8:ACAD:2::2, timeout is 2 seconds:
 Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/2 ms
 R1#
 ```
+### Проверка назначения адреса SLAAC от R1
+```
+VPCS> set pcname PC-A
+
+PC-A> 
+
+VPCS> ip auto  
+GLOBAL SCOPE      : 2001:db8:acad:1:2050:79ff:fe66:680b/64
+ROUTER LINK-LAYER : 50:00:00:07:00:01
+
+PC-A> ping 2001:db8:acad:1::1
+
+2001:db8:acad:1::1 icmp6_seq=1 ttl=64 time=2.374 ms
+2001:db8:acad:1::1 icmp6_seq=2 ttl=64 time=2.195 ms
+2001:db8:acad:1::1 icmp6_seq=3 ttl=64 time=2.362 ms
+2001:db8:acad:1::1 icmp6_seq=4 ttl=64 time=2.267 ms
+PC-A>
+```
