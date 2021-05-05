@@ -247,7 +247,8 @@ R4(config)#int e0/0
 R4(config-if)#no sh
 R4(config-if)#ipv6 en
 R4(config-if)#ipv6 add dhcp
-R4(config-if)#
+R4(config-if)#exit
+R4(config)#ipv6 route ::/0 e0/0
 
 ```
 #### Настроим R2 в качестве агента DHCP relay
@@ -292,5 +293,10 @@ Ethernet0/0 is in client mode
       Information refresh time: 0
   Prefix Rapid-Commit: disabled
   Address Rapid-Commit: disabled
+R4#ping 2001:DB8:ACAD:3::1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 2001:DB8:ACAD:3::1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
 R4#
 ```
